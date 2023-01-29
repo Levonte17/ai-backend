@@ -8,11 +8,14 @@ const cors = require('cors');
 
 //INITIALIZE APP
 const app = express();
-const port = 4000;
+const {
+    port = 4000, API_KEY, ORG
+} = process.env;
+
 //INITIALIZE OPENAI
 const configuration = new Configuration({
-    organization: "org-nUd7ZrgrHTk6IpCeguybI2dV",
-    apiKey: './OpenApi.js',
+    organization: ORG,
+    apiKey: API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
@@ -37,7 +40,7 @@ app.post('/', async (req, res) => {
     Person: 
     ${message}?
     LeVonte Larry:`,
-        "max_tokens": 100,
+        "max_tokens": 500,
         "temperature": 0,
 });
     console.log(response.data)
