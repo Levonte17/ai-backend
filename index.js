@@ -12,7 +12,7 @@ const port = 4000;
 //INITIALIZE OPENAI
 const configuration = new Configuration({
     organization: "org-nUd7ZrgrHTk6IpCeguybI2dV",
-    apiKey: "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",
+    apiKey: './OpenApi.js',
 });
 const openai = new OpenAIApi(configuration);
 
