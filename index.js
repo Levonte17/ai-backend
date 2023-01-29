@@ -5,11 +5,15 @@ const { OpenAIApi, Configuration } = OpenAI;
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const mongoose = require('mongoose');
+const logger = require('morgan');
 
+//CONFIG
+require('dotenv').config();
 //INITIALIZE APP
 const app = express();
 const {
-    port = 4000, API_KEY, ORG
+    PORT = 4001, API_KEY, DATABASE_URL, ORG
 } = process.env;
 
 //INITIALIZE OPENAI
@@ -19,9 +23,15 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
+// establish connection to mongodb
+mongoose.connect(DATABASE_URL);
+mongoose.connection
+    .on('connected', () => console.log('Connected to MongoDB'));
+
 //MIDDLEWARE
 app.use(bodyParser.json());
 app.use(cors());
+app.use(logger('dev'));
 
 //ROUTES
 app.post('/', async (req, res) => {
@@ -52,6 +62,6 @@ app.post('/', async (req, res) => {
 });
 
 
-app.listen(port, () => {
-    console.log(`app is listening on port ${port}`);
+app.listen(PORT, () => {
+    console.log(`app is listening on port ${PORT}`);
 });
