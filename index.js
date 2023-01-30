@@ -1,37 +1,38 @@
 //IMPORT
 const OpenAI = require('openai');
 const { OpenAIApi, Configuration } = OpenAI;
+
 //DEPENDENCIES
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const mongoose = require('mongoose');
 const logger = require('morgan');
 
 //CONFIG
 require('dotenv').config();
+
 //INITIALIZE APP
 const app = express();
 const {
-    PORT = 4001, API_KEY, DATABASE_URL, ORG
+    port = 4000,
 } = process.env;
 
 //INITIALIZE OPENAI
 const configuration = new Configuration({
-    organization: ORG,
-    apiKey: API_KEY,
+    organization: "org-nUd7ZrgrHTk6IpCeguybI2dV",
+    apiKey: process.env.API_KEY,
 });
 const openai = new OpenAIApi(configuration);
-
-// establish connection to mongodb
-mongoose.connect(DATABASE_URL);
-mongoose.connection
-    .on('connected', () => console.log('Connected to MongoDB'));
 
 //MIDDLEWARE
 app.use(bodyParser.json());
 app.use(cors());
 app.use(logger('dev'));
+
+//ROUTES
+app.get('/', (req, res) => {
+    res.json({message: {message}});
+});
 
 //ROUTES
 app.post('/', async (req, res) => {
@@ -50,7 +51,7 @@ app.post('/', async (req, res) => {
     Person: 
     ${message}?
     LeVonte Larry:`,
-        "max_tokens": 500,
+        "max_tokens": 600,
         "temperature": 0,
 });
     console.log(response.data)
@@ -62,6 +63,6 @@ app.post('/', async (req, res) => {
 });
 
 
-app.listen(PORT, () => {
-    console.log(`app is listening on port ${PORT}`);
+app.listen(port, () => {
+    console.log(`app is listening on port ${port}`);
 });

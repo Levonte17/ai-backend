@@ -40,10 +40,7 @@ return (
             <br/>
             <br/>
             {response &&
-            <div className="messages">
-              <b>Le'Vonte:</b>
-              {response}
-            </div> 
+            <div className="messages"><b>Le'Vonte: </b> {response}</div> 
             }
     </div>
   );
